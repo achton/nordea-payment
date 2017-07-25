@@ -1,11 +1,16 @@
 {
-    "name": "z38/swiss-payment",
+    "name": "troelslenda/nordea-payment",
     "type": "library",
     "license": "MIT",
     "description": "PHP library to generate Swiss pain.001 messages (complies with ISO-20022)",
     "keywords": ["banking", "iso-20022", "six", "credit-transfer", "switzerland", "sepa", "xml"],
-    "homepage": "https://github.com/z38/swiss-payment",
+    "homepage": "https://github.com/troelslenda/nordea-payment",
     "authors": [
+        {
+            "name": "Troels Lenda",
+            "homepage": "https://github.com/troelslenda",
+            "role": "Developer"
+        },
         {
             "name": "z38",
             "homepage": "https://github.com/z38",
@@ -20,7 +25,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Z38\\SwissPayment": "src/"
+            "troelslenda\\NordeaPayment": "src/"
         }
     }
 }
