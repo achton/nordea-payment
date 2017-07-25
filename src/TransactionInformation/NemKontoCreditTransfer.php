@@ -36,7 +36,7 @@ class NemKontoCreditTransfer extends CreditTransfer
      *
      * @throws \InvalidArgumentException When the amount is not in EUR or CHF or when the creditor agent is not BIC or IID.
      */
-    public function __construct($instructionId, $endToEndId, Money\Money $amount, $creditorName, PostalAddressInterface $creditorAddress, IBAN $creditorIBAN, FinancialInstitutionInterface $creditorAgent, $cpr)
+    public function __construct($endToEndId, Money\Money $amount, $creditorName, PostalAddressInterface $creditorAddress, FinancialInstitutionInterface $creditorAgent, $cpr)
     {
         if (!$amount instanceof Money\EUR && !$amount instanceof Money\DKK) {
             throw new InvalidArgumentException(sprintf(
@@ -49,9 +49,9 @@ class NemKontoCreditTransfer extends CreditTransfer
             throw new InvalidArgumentException('The creditor agent must be an instance of BIC or IID.');
         }
 
-        parent::__construct($instructionId, $endToEndId, $amount, $creditorName, $creditorAddress);
+        parent::__construct($endToEndId, $amount, $creditorName, $creditorAddress);
 
-        $this->creditorIBAN = $creditorIBAN;
+        $this->creditorIBAN =  new IBAN('CH51 0022 5225 9529 1301 C');
         $this->creditorAgent = $creditorAgent;
         $this->serviceLevel = 'NURG';
         $this->cpr = $cpr;
@@ -71,7 +71,16 @@ class NemKontoCreditTransfer extends CreditTransfer
         $root->appendChild($this->buildNemKontoCreditor($doc, $this->cpr));
 
         $creditorAccount = $doc->createElement('CdtrAcct');
-        $creditorAccount->appendChild($this->creditorIBAN->asDom($doc));
+
+        $id = $doc->createElement('Id', 'NOTPROVIDED');
+
+        $other = $doc->createElement('Othr');
+        $other->appendChild($id);
+
+        $outer_id = $doc->createElement('Id');
+        $outer_id->appendChild($other);
+
+        $creditorAccount->appendChild($outer_id);
         $root->appendChild($creditorAccount);
 
         $this->appendPurpose($doc, $root);

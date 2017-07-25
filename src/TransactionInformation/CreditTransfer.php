@@ -59,15 +59,14 @@ abstract class CreditTransfer
     /**
      * Constructor
      *
-     * @param string                 $instructionId   Identifier of the instruction (should be unique within the message)
      * @param string                 $endToEndId      End-To-End Identifier of the instruction (passed unchanged along the complete processing chain)
      * @param Money                  $amount          Amount of money to be transferred
      * @param string                 $creditorName    Name of the creditor
      * @param PostalAddressInterface $creditorAddress Address of the creditor
      */
-    public function __construct($instructionId, $endToEndId, Money $amount, $creditorName, PostalAddressInterface $creditorAddress)
+    public function __construct($endToEndId, Money $amount, $creditorName, PostalAddressInterface $creditorAddress)
     {
-        $this->instructionId = (string) $instructionId;
+        //$this->instructionId = (string) $instructionId;
         $this->endToEndId = (string) $endToEndId;
         $this->amount = $amount;
         $this->creditorName = (string) $creditorName;
@@ -155,7 +154,7 @@ abstract class CreditTransfer
         $root = $doc->createElement('CdtTrfTxInf');
 
         $id = $doc->createElement('PmtId');
-        $id->appendChild($doc->createElement('InstrId', $this->instructionId));
+        //$id->appendChild($doc->createElement('InstrId', $this->instructionId));
         $id->appendChild($doc->createElement('EndToEndId', $this->endToEndId));
         $root->appendChild($id);
 
