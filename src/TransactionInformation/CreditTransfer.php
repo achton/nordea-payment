@@ -2,9 +2,9 @@
 
 namespace NordeaPayment\TransactionInformation;
 
-use Z38\SwissPayment\Money\Money;
-use Z38\SwissPayment\PaymentInformation\PaymentInformation;
-use Z38\SwissPayment\PostalAddressInterface;
+use NordeaPayment\Money\Money;
+use NordeaPayment\PaymentInformation\PaymentInformation;
+use NordeaPayment\PostalAddressInterface;
 
 /**
  * CreditTransfer contains all the information about the beneficiary and further information about the transaction.

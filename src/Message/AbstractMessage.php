@@ -7,7 +7,7 @@ namespace NordeaPayment\Message;
  */
 abstract class AbstractMessage implements MessageInterface
 {
-    const SCHEMA_LOCATION = 'http://www.six-interbank-clearing.com/de/%s';
+    const SCHEMA_LOCATION = '%s file://Client/H$/SchemaXML/pain.001.001.03.xsd';
 
     /**
      * Builds the DOM of the actual message
@@ -33,14 +33,15 @@ abstract class AbstractMessage implements MessageInterface
     public function asDom()
     {
         $schema = $this->getSchemaName();
-        $ns = sprintf(self::SCHEMA_LOCATION, $schema);
+        $ns = 'urn:iso:std:iso:20022:tech:xsd:pain.001.001.03';
+        $schemaLocation = $ns . ' file://Client/H$/SchemaXML/pain.001.001.03.xsd';
 
         $doc = new \DOMDocument('1.0', 'UTF-8');
         $doc->formatOutput = true;
         $root = $doc->createElement('Document');
         $root->setAttribute('xmlns', $ns);
         $root->setAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
-        $root->setAttribute('xsi:schemaLocation', sprintf('%s %s', $ns, $schema));
+        $root->setAttribute('xsi:schemaLocation', $schemaLocation);
         $root->appendChild($this->buildDom($doc));
         $doc->appendChild($root);
 
@@ -90,5 +91,33 @@ abstract class AbstractMessage implements MessageInterface
         $root->appendChild($doc->createElement('Othr', $this->getSoftwareVersion()));
 
         return $root;
+    }
+    protected function buildInitiatingParty(\DOMDocument $doc, $name, $id)
+    {
+        $code = $doc->createElement('Cd', 'CUST');
+
+        $schemeName = $doc->createElement('SchmeNm');
+        $schemeName->appendChild($code);
+
+        $identification2 = $doc->createElement('Id', $id);
+
+
+        $other = $doc->createElement('Othr');
+        $other->appendChild($identification2);
+        $other->appendChild($schemeName);
+
+        $organisationIdentification = $doc->createElement('OrgId');
+        $organisationIdentification->appendChild($other);
+
+        $identification = $doc->createElement('Id');
+        $identification->appendChild($organisationIdentification);
+
+        $name = $doc->createElement('Nm', $name);
+
+        $initiatingParty = $doc->createElement('InitgPty');
+        $initiatingParty->appendChild($name);
+        $initiatingParty->appendChild($identification);
+
+        return $initiatingParty;
     }
 }

@@ -37,9 +37,9 @@ class BankCreditTransfer extends CreditTransfer
      */
     public function __construct($instructionId, $endToEndId, Money\Money $amount, $creditorName, PostalAddressInterface $creditorAddress, IBAN $creditorIBAN, FinancialInstitutionInterface $creditorAgent)
     {
-        if (!$amount instanceof Money\EUR && !$amount instanceof Money\CHF) {
+        if (!$amount instanceof Money\EUR && !$amount instanceof Money\DKK) {
             throw new InvalidArgumentException(sprintf(
-                'The amount must be an instance of Z38\SwissPayment\Money\EUR or Z38\SwissPayment\Money\CHF (instance of %s given).',
+                'The amount must be an instance of Money\EUR or Money\DKK (instance of %s given).',
                 get_class($amount)
             ));
         }

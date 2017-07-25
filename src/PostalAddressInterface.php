@@ -1,6 +1,6 @@
 <?php
 
-namespace Z38\SwissPayment;
+namespace NordeaPayment;
 
 /**
  * PostalAddressInterface

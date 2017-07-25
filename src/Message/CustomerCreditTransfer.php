@@ -75,7 +75,7 @@ class CustomerCreditTransfer extends AbstractMessage
      */
     protected function getSchemaName()
     {
-        return 'pain.001.001.03.ch.02.xsd';
+        return 'urn:iso:std:iso:20022:tech:xsd:pain.001.001.03';
     }
 
     /**
@@ -96,10 +96,7 @@ class CustomerCreditTransfer extends AbstractMessage
         $header->appendChild($doc->createElement('CreDtTm', $this->creationTime->format('Y-m-d\TH:i:sP')));
         $header->appendChild($doc->createElement('NbOfTxs', $transactionCount));
         $header->appendChild($doc->createElement('CtrlSum', $transactionSum->format()));
-        $initgParty = $doc->createElement('InitgPty');
-        $initgParty->appendChild($doc->createElement('Nm', $this->initiatingParty));
-        $initgParty->appendChild($this->buildContactDetails($doc));
-        $header->appendChild($initgParty);
+        $header->appendChild($this->buildInitiatingParty($doc, 'Dong A/S', 'DONGNEMOTEST'));
         $root->appendChild($header);
 
         foreach ($this->payments as $payment) {
