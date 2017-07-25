@@ -85,6 +85,7 @@ class PaymentInformation
         $this->debtorName = (string) $debtorName;
         $this->debtorAgent = $debtorAgent;
         $this->debtorIBAN = $debtorIBAN;
+        $this->serviceLevel = 'NURG';
     }
 
     /**

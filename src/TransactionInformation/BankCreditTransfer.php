@@ -52,6 +52,7 @@ class BankCreditTransfer extends CreditTransfer
 
         $this->creditorIBAN = $creditorIBAN;
         $this->creditorAgent = $creditorAgent;
+        $this->serviceLevel = 'NURG';
     }
 
     /**
