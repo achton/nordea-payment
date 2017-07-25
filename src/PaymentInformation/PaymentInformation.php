@@ -215,7 +215,7 @@ class PaymentInformation
 
         $root->appendChild($doc->createElement('PmtInfId', $this->id));
         $root->appendChild($doc->createElement('PmtMtd', 'TRF'));
-        $root->appendChild($doc->createElement('BtchBookg', ($this->batchBooking ? 'true' : 'false')));
+        //$root->appendChild($doc->createElement('BtchBookg', ($this->batchBooking ? 'true' : 'false')));
 
         if ($this->hasPaymentTypeInformation()) {
             $paymentType = $doc->createElement('PmtTpInf');
