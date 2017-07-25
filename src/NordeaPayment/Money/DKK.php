@@ -1,18 +1,18 @@
 <?php
 
-namespace Z38\SwissPayment\Money;
+namespace NordeaPayment\Money;
 
 /**
- * Sum of money in Japanese yen
+ * Sum of money in Danish kroner
  */
-class JPY extends Money
+class DKK extends Money
 {
     /**
      * {@inheritdoc}
      */
     final public function getCurrency()
     {
-        return 'JPY';
+        return 'DKK';
     }
 
     /**
@@ -20,6 +20,6 @@ class JPY extends Money
      */
     final protected function getDecimals()
     {
-        return 0;
+        return 2;
     }
 }

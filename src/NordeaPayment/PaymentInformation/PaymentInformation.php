@@ -1,13 +1,13 @@
 <?php
 
-namespace Z38\SwissPayment\PaymentInformation;
+namespace NordeaPayment\PaymentInformation;
 
-use Z38\SwissPayment\BIC;
-use Z38\SwissPayment\FinancialInstitutionInterface;
-use Z38\SwissPayment\IBAN;
-use Z38\SwissPayment\IID;
-use Z38\SwissPayment\Money;
-use Z38\SwissPayment\TransactionInformation\CreditTransfer;
+use NordeaPayment\BIC;
+use NordeaPayment\FinancialInstitutionInterface;
+use NordeaPayment\IBAN;
+use NordeaPayment\IID;
+use NordeaPayment\Money;
+use NordeaPayment\TransactionInformation\CreditTransfer;
 
 /**
  * PaymentInformation contains a group of transactions as well as details about the debtor

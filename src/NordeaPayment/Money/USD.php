@@ -1,18 +1,18 @@
 <?php
 
-namespace Z38\SwissPayment\Money;
+namespace NordeaPayment\Money;
 
 /**
- * Sum of money in Euro
+ * Sum of money in U.S. dollars
  */
-class EUR extends Money
+class USD extends Money
 {
     /**
      * {@inheritdoc}
      */
     final public function getCurrency()
     {
-        return 'EUR';
+        return 'USD';
     }
 
     /**

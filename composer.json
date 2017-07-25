@@ -24,8 +24,8 @@
         "phpunit/phpunit": "~4.2"
     },
     "autoload": {
-        "psr-0": {
-            "troelslenda\\NordeaPayment": "src/"
+        "psr-4": {
+            "NordeaPayment\\": "src/"
         }
     }
 }

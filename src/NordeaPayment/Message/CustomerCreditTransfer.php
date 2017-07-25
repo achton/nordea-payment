@@ -1,9 +1,9 @@
 <?php
 
-namespace Z38\SwissPayment\Message;
+namespace NordeaPayment\Message;
 
-use Z38\SwissPayment\Money;
-use Z38\SwissPayment\PaymentInformation\PaymentInformation;
+use NordeaPayment\Money;
+use NordeaPayment\PaymentInformation\PaymentInformation;
 
 /**
  * CustomerCreditTransfer represents a Customer Credit Transfer Initiation (pain.001) message
@@ -33,7 +33,7 @@ class CustomerCreditTransfer extends AbstractMessage
     /**
      * Constructor
      *
-     * @param string $id              Identifier of the message (should usually be unique over a period of at least 90 days)
+     * @param string $id Identifier of the message (should usually be unique over a period of at least 90 days)
      * @param string $initiatingParty Name of the initiating party
      */
     public function __construct($id, $initiatingParty)

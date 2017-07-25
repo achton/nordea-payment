@@ -1,6 +1,6 @@
 <?php
 
-namespace Z38\SwissPayment\Message;
+namespace NordeaPayment\Message;
 
 /**
  * General interface for ISO-20022 messages

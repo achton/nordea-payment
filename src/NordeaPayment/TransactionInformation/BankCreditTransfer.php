@@ -1,16 +1,16 @@
 <?php
 
-namespace Z38\SwissPayment\TransactionInformation;
+namespace NordeaPayment\TransactionInformation;
 
 use DOMDocument;
 use InvalidArgumentException;
-use Z38\SwissPayment\BIC;
-use Z38\SwissPayment\FinancialInstitutionInterface;
-use Z38\SwissPayment\IBAN;
-use Z38\SwissPayment\IID;
-use Z38\SwissPayment\Money;
-use Z38\SwissPayment\PaymentInformation\PaymentInformation;
-use Z38\SwissPayment\PostalAddressInterface;
+use NordeaPayment\BIC;
+use NordeaPayment\FinancialInstitutionInterface;
+use NordeaPayment\IBAN;
+use NordeaPayment\IID;
+use NordeaPayment\Money;
+use NordeaPayment\PaymentInformation\PaymentInformation;
+use NordeaPayment\PostalAddressInterface;
 
 /**
  * BankCreditTransfer contains all the information about a type 3 transaction.

@@ -1,6 +1,6 @@
 <?php
 
-namespace Z38\SwissPayment\Message;
+namespace NordeaPayment\Message;
 
 /**
  * AbstractMessages eases message creation using DOM

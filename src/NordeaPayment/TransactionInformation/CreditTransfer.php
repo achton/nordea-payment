@@ -1,6 +1,6 @@
 <?php
 
-namespace Z38\SwissPayment\TransactionInformation;
+namespace NordeaPayment\TransactionInformation;
 
 use Z38\SwissPayment\Money\Money;
 use Z38\SwissPayment\PaymentInformation\PaymentInformation;

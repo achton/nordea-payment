@@ -1,6 +1,6 @@
 <?php
 
-namespace Z38\SwissPayment\Money;
+namespace NordeaPayment\Money;
 
 /**
  * Sum of money in mixed currencies
