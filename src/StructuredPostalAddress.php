@@ -67,4 +67,13 @@ class StructuredPostalAddress implements PostalAddressInterface
 
         return $root;
     }
+
+
+    static function getPostalAddressCountry(\DOMDocument $doc, $country = 'DK')
+    {
+        $country = $doc->createElement('Ctry', 'DK');
+        $postalAddress = $doc->createElement('PstlAdr');
+        $postalAddress->appendChild($country);
+        return $postalAddress;
+    }
 }

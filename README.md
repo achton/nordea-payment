@@ -1,9 +1,11 @@
-# SwissPayment
+# Nordea Payment
 
-[![Build Status](https://travis-ci.org/z38/swiss-payment.png?branch=master)](https://travis-ci.org/z38/swiss-payment)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/z38/swiss-payment/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/z38/swiss-payment/?branch=master)
+**Nordea Payment** is a PHP library to generate pain.001 XML messages (complies with ISO-20022) based on 
+[MIG_pain.001.001.03_v_2.1_Release-2016-08-19_FINAL.PDF](ressources/MIG_pain.001.001.03_v_2.1_Release-2016-08-19_FINAL.PDF)
 
-**SwissPayment** is a PHP library to generate Swiss pain.001 XML messages (complies with ISO-20022).
+The Library is strongly based upon z38/swiss-payment and altered to fit Nordea's needs.
+
+The rest of the readme is left untouched.
 
 ## Installation
 

@@ -7,6 +7,7 @@ use NordeaPayment\FinancialInstitutionInterface;
 use NordeaPayment\IBAN;
 use NordeaPayment\IID;
 use NordeaPayment\Money;
+use NordeaPayment\StructuredPostalAddress;
 use NordeaPayment\TransactionInformation\CreditTransfer;
 
 /**
@@ -243,12 +244,15 @@ class PaymentInformation
 
         $debtor = $doc->createElement('Dbtr');
         $debtor->appendChild($doc->createElement('Nm', $this->debtorName));
+        $debtor->appendChild(StructuredPostalAddress::getPostalAddressCountry($doc));
         $root->appendChild($debtor);
 
         $debtorAccount = $doc->createElement('DbtrAcct');
         $debtorAccountId = $doc->createElement('Id');
         $debtorAccountId->appendChild($doc->createElement('IBAN', $this->debtorIBAN->normalize()));
+        $currency = $doc->createElement('Ccy', 'DKK');
         $debtorAccount->appendChild($debtorAccountId);
+        $debtorAccount->appendChild($currency);
         $root->appendChild($debtorAccount);
 
         $debtorAgent = $doc->createElement('DbtrAgt');

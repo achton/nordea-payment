@@ -47,6 +47,7 @@ class BIC implements FinancialInstitutionInterface
     {
         $xml = $doc->createElement('FinInstnId');
         $xml->appendChild($doc->createElement('BIC', $this->format()));
+        $xml->appendChild(StructuredPostalAddress::getPostalAddressCountry($doc));
 
         return $xml;
     }

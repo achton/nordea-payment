@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- JNLP File for XML Test Tool -->
+<jnlp spec="1.0+" codebase="https://girolink.plusgirot.se/jnlp">
+ <information>
+  <title>XML Test Tool</title>
+  <vendor>Nordea Bank AB</vendor>
+  <description>XML Test Tool - Corporate eGateway</description>
+  <description kind="short">XML Test Tool - Corporate eGateway</description>
+  <offline-allowed/>
+ </information>
+ <security>
+  <all-permissions/>
+ </security>
+ <resources>
+  <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"
+   initial-heap-size="64m" max-heap-size="512m"/>
+  <jar href="glwsjr03.jar" download="eager"/>
+  <jar href="glwsjrx3.jar" download="eager" />
+  <jar href="glwsjrs3.jar" download="eager" />
+  <jar href="glwsjrc3.jar" download="eager" />
+  <jar href="glwsjrj3.jar" download="eager" />
+  <property name="jnlp.com.nordea.xmltt.config" value="egw"/>
+  <property name="jnlp.com.nordea.xmltt.showWarnings" value="true"/>
+  <property name="jnlp.com.nordea.xmltt.showKeyName" value="true"/>
+ </resources>
+ <application-desc main-class="com.nordea.xmltt.XmlTestTool"/>
+</jnlp>
