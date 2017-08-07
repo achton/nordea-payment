@@ -4,6 +4,7 @@ namespace NordeaPayment\TransactionInformation;
 
 use DOMDocument;
 use InvalidArgumentException;
+use NordeaPayment\AccountInterface;
 use NordeaPayment\BIC;
 use NordeaPayment\FinancialInstitutionInterface;
 use NordeaPayment\IBAN;
@@ -20,7 +21,7 @@ class BankCreditTransfer extends CreditTransfer
     /**
      * @var IBAN
      */
-    protected $creditorIBAN;
+    protected $creditorAccount;
 
     /**
      * @var FinancialInstitutionInterface
@@ -30,12 +31,20 @@ class BankCreditTransfer extends CreditTransfer
     /**
      * {@inheritdoc}
      *
-     * @param IBAN    $creditorIBAN  IBAN of the creditor
      * @param BIC|IID $creditorAgent BIC or IID of the creditor's financial institution
+     * @param IBAN|BBAN $creditorAccount IBAN or BBAN from creditor.
      *
-     * @throws \InvalidArgumentException When the amount is not in EUR or CHF or when the creditor agent is not BIC or IID.
+     * @throws \InvalidArgumentException When the amount is not in EUR or CHF or when
+     * the creditor agent is not BIC or IID.
      */
-    public function __construct($endToEndId, Money\Money $amount, $creditorName, PostalAddressInterface $creditorAddress, IBAN $creditorIBAN, FinancialInstitutionInterface $creditorAgent)
+    public function __construct(
+        $endToEndId,
+        Money\Money $amount,
+        $creditorName,
+        PostalAddressInterface $creditorAddress,
+        AccountInterface $creditorAccount,
+        FinancialInstitutionInterface $creditorAgent
+    )
     {
         if (!$amount instanceof Money\EUR && !$amount instanceof Money\DKK) {
             throw new InvalidArgumentException(sprintf(
@@ -50,7 +59,7 @@ class BankCreditTransfer extends CreditTransfer
 
         parent::__construct($endToEndId, $amount, $creditorName, $creditorAddress);
 
-        $this->creditorIBAN = $creditorIBAN;
+        $this->creditorAccount = $creditorAccount;
         $this->creditorAgent = $creditorAgent;
         $this->serviceLevel = 'NURG';
     }
@@ -69,7 +78,7 @@ class BankCreditTransfer extends CreditTransfer
         $root->appendChild($this->buildCreditor($doc));
 
         $creditorAccount = $doc->createElement('CdtrAcct');
-        $creditorAccount->appendChild($this->creditorIBAN->asDom($doc));
+        $creditorAccount->appendChild($this->creditorAccount->asDom($doc));
         $root->appendChild($creditorAccount);
 
         $this->appendPurpose($doc, $root);

@@ -11,6 +11,7 @@ use NordeaPayment\IID;
 use NordeaPayment\Money;
 use NordeaPayment\PaymentInformation\PaymentInformation;
 use NordeaPayment\PostalAddressInterface;
+use NordeaPayment\SOSE;
 
 /**
  * BankCreditTransfer contains all the information about a type 3 transaction.
@@ -36,7 +37,7 @@ class NemKontoCreditTransfer extends CreditTransfer
      *
      * @throws \InvalidArgumentException When the amount is not in EUR or CHF or when the creditor agent is not BIC or IID.
      */
-    public function __construct($endToEndId, Money\Money $amount, $creditorName, PostalAddressInterface $creditorAddress, FinancialInstitutionInterface $creditorAgent, $cpr)
+    public function __construct($endToEndId, Money\Money $amount, $creditorName, PostalAddressInterface $creditorAddress, FinancialInstitutionInterface $creditorAgent, SOSE $cpr)
     {
         if (!$amount instanceof Money\EUR && !$amount instanceof Money\DKK) {
             throw new InvalidArgumentException(sprintf(
