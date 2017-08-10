@@ -4,6 +4,7 @@ namespace NordeaPayment\TransactionInformation;
 
 use DOMDocument;
 use InvalidArgumentException;
+use NordeaPayment\AccountInterface;
 use NordeaPayment\BIC;
 use NordeaPayment\FinancialInstitutionInterface;
 use NordeaPayment\IBAN;
@@ -33,11 +34,18 @@ class NemKontoCreditTransfer extends CreditTransfer
      *
      * @param IBAN    $creditorIBAN  IBAN of the creditor
      * @param BIC|IID $creditorAgent BIC or IID of the creditor's financial institution
-     * @param string $cpr The creditors CPR number.
+     * @param string $sose The creditors Social security number.
      *
      * @throws \InvalidArgumentException When the amount is not in EUR or CHF or when the creditor agent is not BIC or IID.
      */
-    public function __construct($endToEndId, Money\Money $amount, $creditorName, PostalAddressInterface $creditorAddress, FinancialInstitutionInterface $creditorAgent, SOSE $cpr)
+    public function __construct(
+        $endToEndId,
+        Money\Money $amount,
+        $creditorName,
+        PostalAddressInterface $creditorAddress,
+        AccountInterface $sose,
+        FinancialInstitutionInterface $creditorAgent
+    )
     {
         if (!$amount instanceof Money\EUR && !$amount instanceof Money\DKK) {
             throw new InvalidArgumentException(sprintf(
@@ -55,7 +63,7 @@ class NemKontoCreditTransfer extends CreditTransfer
         $this->creditorIBAN =  new IBAN('CH51 0022 5225 9529 1301 C');
         $this->creditorAgent = $creditorAgent;
         $this->serviceLevel = 'NURG';
-        $this->cpr = $cpr;
+        $this->sose = $sose;
     }
 
     /**
@@ -69,7 +77,7 @@ class NemKontoCreditTransfer extends CreditTransfer
         $creditorAgent->appendChild($this->creditorAgent->asDom($doc));
         $root->appendChild($creditorAgent);
 
-        $root->appendChild($this->buildNemKontoCreditor($doc, $this->cpr));
+        $root->appendChild($this->buildNemKontoCreditor($doc, $this->sose));
 
         $creditorAccount = $doc->createElement('CdtrAcct');
 
@@ -91,17 +99,17 @@ class NemKontoCreditTransfer extends CreditTransfer
         return $root;
     }
 
-    protected function buildNemKontoCreditor(\DOMDocument $doc, $cpr)
+    protected function buildNemKontoCreditor(\DOMDocument $doc, $sose)
     {
         $code = $doc->createElement('Cd', 'SOSE');
 
         $schemeName = $doc->createElement('SchmeNm');
         $schemeName->appendChild($code);
 
-        $cpr = $doc->createElement('Id', $cpr);
+        $sose = $doc->createElement('Id', $sose);
 
         $other = $doc->createElement('Othr');
-        $other->appendChild($cpr);
+        $other->appendChild($sose);
         $other->appendChild($schemeName);
 
         $privateId = $doc->createElement('PrvtId');
