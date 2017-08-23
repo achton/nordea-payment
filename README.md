@@ -29,39 +29,37 @@ use NordeaPayment\StructuredPostalAddress;
 use NordeaPayment\TransactionInformation\BankCreditTransfer;
 
 $transaction1 = new BankCreditTransfer(
-    'instr-001',
     'e2e-001',
     new Money\DKK(130000), // DKK 1300.00
-    'Muster Transport AG',
-    new StructuredPostalAddress('Wiesenweg', '14b', '8058', 'Zürich-Flughafen'),
-    new IBAN('CH51 0022 5225 9529 1301 C'),
+    'Anders And',
+    new StructuredPostalAddress('Andevej', '13', '8000', 'Odense C'),
+    new BBAN('1234', '1234567890'),
     new BIC('NDEADKKK')
 );
 
 $transaction2 = new NemKontoCreditTransfer(
     'e2e-002',
     new Money\DKK(30000), // DKK 300.00
-    'Finanzverwaltung Stadt Musterhausen',
-    new StructuredPostalAddress('Altstadt', '1a', '4998', 'Muserhausen'),
-    new PostalAccount('80-151-4')
+    'Rasmus Klump',
+    new StructuredPostalAddress('Pildskaddevej', '12', '3782', 'Klemensker'),
+    new BBAN('0568', '7894561'),
+    new BIC('NDEADKKK')
 );
 
 $payment = new PaymentInformation(
     'payment-001',
-    'InnoMuster AG',
+    'René Dif fra Aqua',
     new BIC('NDEADKKK'),
-    new IBAN('CH6600700110000204481')
+    new BBAN('1234', '1234567890')
 );
 $payment->addTransaction($transaction1);
 $payment->addTransaction($transaction2);
 
-$message = new CustomerCreditTransfer('message-001', 'InnoMuster AG');
+$message = new CustomerCreditTransfer('message-001', 'Acme Test A/S', 'ACMETEST');
 $message->addPayment($payment);
 
 echo $message->asXml();
 ```
-
-**Tip:** Take a look at `NordeaPayment\Tests\Message\CustomerCreditTransferTest` to see all payment types in action.
 
 ## Further Resources
 
