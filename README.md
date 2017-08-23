@@ -1,15 +1,15 @@
 # Nordea Payment
 
-**Nordea Payment** is a PHP library to generate pain.001 XML messages (complies with ISO-20022) based on 
-[MIG_pain.001.001.03_v_2.1_Release-2016-08-19_FINAL.PDF](ressources/MIG_pain.001.001.03_v_2.1_Release-2016-08-19_FINAL.PDF)
+[![Build Status](https://travis-ci.org/achton/swiss-payment.png?branch=master)](https://travis-ci.org/achton/swiss-payment)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/achton/swiss-payment/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/achton/swiss-payment/?branch=master)
 
-The Library is strongly based upon z38/swiss-payment and altered to fit Nordea's needs.
+**Nordea Payment** is a PHP library to generate Danish Nordea pain.001 XML messages (complies with ISO-20022). It is based on [Nordea's Corporate eGateway Message Implementation Guideline for pain.001 messages](resources/MIG_pain.001.001.03_v_2.1_Release-2016-08-19_FINAL.PDF). It is also a fork of the [SwissPayment library](https://github.com/z38/swiss-payment) and altered to fit Nordea's needs.
 
-The rest of the readme is left untouched.
+**NOTE:** It is currently only used for domestic payments, so intl transactions have not been tested as rigorously.
 
 ## Installation
 
-Just install [Composer](http://getcomposer.org) and run `composer require z38/swiss-payment` in your project directory.
+Just install [Composer](http://getcomposer.org) and run `composer require trogels/nordea-payment` in your project directory.
 
 ## Usage
 
@@ -20,30 +20,27 @@ To get a basic understanding on how the messages are structured, take a look [th
 
 require_once __DIR__.'/vendor/autoload.php';
 
-use Z38\SwissPayment\BIC;
-use Z38\SwissPayment\IBAN;
-use Z38\SwissPayment\Message\CustomerCreditTransfer;
-use Z38\SwissPayment\Money;
-use Z38\SwissPayment\PaymentInformation\PaymentInformation;
-use Z38\SwissPayment\PostalAccount;
-use Z38\SwissPayment\StructuredPostalAddress;
-use Z38\SwissPayment\TransactionInformation\BankCreditTransfer;
-use Z38\SwissPayment\TransactionInformation\IS1CreditTransfer;
+use NordeaPayment\BIC;
+use NordeaPayment\IBAN;
+use NordeaPayment\Message\CustomerCreditTransfer;
+use NordeaPayment\Money;
+use NordeaPayment\PaymentInformation\PaymentInformation;
+use NordeaPayment\StructuredPostalAddress;
+use NordeaPayment\TransactionInformation\BankCreditTransfer;
 
 $transaction1 = new BankCreditTransfer(
     'instr-001',
     'e2e-001',
-    new Money\CHF(130000), // CHF 1300.00
+    new Money\DKK(130000), // DKK 1300.00
     'Muster Transport AG',
     new StructuredPostalAddress('Wiesenweg', '14b', '8058', 'Zürich-Flughafen'),
     new IBAN('CH51 0022 5225 9529 1301 C'),
-    new BIC('UBSWCHZH80A')
+    new BIC('NDEADKKK')
 );
 
-$transaction2 = new IS1CreditTransfer(
-    'instr-002',
+$transaction2 = new NemKontoCreditTransfer(
     'e2e-002',
-    new Money\CHF(30000), // CHF 300.00
+    new Money\DKK(30000), // DKK 300.00
     'Finanzverwaltung Stadt Musterhausen',
     new StructuredPostalAddress('Altstadt', '1a', '4998', 'Muserhausen'),
     new PostalAccount('80-151-4')
@@ -52,7 +49,7 @@ $transaction2 = new IS1CreditTransfer(
 $payment = new PaymentInformation(
     'payment-001',
     'InnoMuster AG',
-    new BIC('ZKBKCHZZ80A'),
+    new BIC('NDEADKKK'),
     new IBAN('CH6600700110000204481')
 );
 $payment->addTransaction($transaction1);
@@ -64,30 +61,8 @@ $message->addPayment($payment);
 echo $message->asXml();
 ```
 
-**Tip:** Take a look at `Z38\SwissPayment\Tests\Message\CustomerCreditTransferTest` to see all payment types in action.
-
-## Caveats
-
-- Not all business rules and recommendations are enforced, consult the documentation and **validate the resulting transaction file in cooperation with your bank**.
-- At the moment cheque transfers are not supported (for details consult chapter 2.2 of the Implementation Guidelines)
-- The whole project is still under development and therefore BC breaks can occur. Please contact me if you need a stable code base.
-
-## Contributing
-
-If you want to get your hands dirty, great! Here's a couple of steps/guidelines:
-
-- Fork this repository
-- Add your changes & tests for those changes (in `tests/`).
-- Remember to stick to the existing code style as best as possible. When in doubt, follow `PSR-2`.
-- Send me a pull request!
-
-If you don't want to go through all this, but still found something wrong or missing, please
-let me know, and/or **open a new issue report** so that I or others may take care of it.
+**Tip:** Take a look at `NordeaPayment\Tests\Message\CustomerCreditTransferTest` to see all payment types in action.
 
 ## Further Resources
 
-- [www.iso-payments.ch](http://www.iso-payments.ch) General website about the Swiss recommendations regarding ISO 20022
-- [Swiss Business Rules for Customer-Bank Messages](http://www.six-interbank-clearing.com/dam/downloads/en/standardization/iso/swiss-recommendations/business-rules.pdf)
-- [Swiss Implementation Guidelines for pain.001 and pain.002 Messages](http://www.six-interbank-clearing.com/dam/downloads/en/standardization/iso/swiss-recommendations/implementation-guidelines-ct.pdf)
-- [SIX Validation Portal](https://validation.iso-payments.ch/)
-- [PostFinance Validation Portal](https://isotest.postfinance.ch/corporates/)
+- [Nordea documentation about Transactions in XML ISO20022](https://www.nordea.com/en/our-services/cashmanagement/oursolutions/egateway/#tab=Format-Descriptions_XML-ISO20022-messages)
