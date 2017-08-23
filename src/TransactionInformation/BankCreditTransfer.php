@@ -7,7 +7,6 @@ use InvalidArgumentException;
 use NordeaPayment\AccountInterface;
 use NordeaPayment\BIC;
 use NordeaPayment\FinancialInstitutionInterface;
-use NordeaPayment\IBAN;
 use NordeaPayment\IID;
 use NordeaPayment\Money;
 use NordeaPayment\PaymentInformation\PaymentInformation;
@@ -19,7 +18,7 @@ use NordeaPayment\PostalAddressInterface;
 class BankCreditTransfer extends CreditTransfer
 {
     /**
-     * @var IBAN
+     * @var IBAN|BBAN
      */
     protected $creditorAccount;
 
@@ -31,24 +30,17 @@ class BankCreditTransfer extends CreditTransfer
     /**
      * {@inheritdoc}
      *
-     * @param BIC|IID $creditorAgent BIC or IID of the creditor's financial institution
      * @param IBAN|BBAN $creditorAccount IBAN or BBAN from creditor.
+     * @param BIC|IID $creditorAgent BIC or IID of the creditor's financial institution
      *
-     * @throws \InvalidArgumentException When the amount is not in EUR or CHF or when
+     * @throws \InvalidArgumentException When the amount is not in EUR or DKK or when
      * the creditor agent is not BIC or IID.
      */
-    public function __construct(
-        $endToEndId,
-        Money\Money $amount,
-        $creditorName,
-        PostalAddressInterface $creditorAddress,
-        AccountInterface $creditorAccount,
-        FinancialInstitutionInterface $creditorAgent
-    )
+    public function __construct($endToEndId, Money\Money $amount, $creditorName, PostalAddressInterface $creditorAddress, AccountInterface $creditorAccount, FinancialInstitutionInterface $creditorAgent)
     {
         if (!$amount instanceof Money\EUR && !$amount instanceof Money\DKK) {
             throw new InvalidArgumentException(sprintf(
-                'The amount must be an instance of Money\EUR or Money\CHF (instance of %s given).',
+                'The amount must be an instance of Money\EUR or Money\DKK (instance of %s given).',
                 get_class($amount)
             ));
         }
@@ -61,7 +53,6 @@ class BankCreditTransfer extends CreditTransfer
 
         $this->creditorAccount = $creditorAccount;
         $this->creditorAgent = $creditorAgent;
-        $this->serviceLevel = 'NURG';
     }
 
     /**
