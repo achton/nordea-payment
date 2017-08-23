@@ -2,9 +2,11 @@
 
 namespace NordeaPayment\PaymentInformation;
 
+use NordeaPayment\AccountInterface;
 use NordeaPayment\BIC;
 use NordeaPayment\FinancialInstitutionInterface;
 use NordeaPayment\IBAN;
+use NordeaPayment\BBAN;
 use NordeaPayment\IID;
 use NordeaPayment\Money;
 use NordeaPayment\StructuredPostalAddress;
@@ -63,17 +65,17 @@ class PaymentInformation
     /**
      * @var IBAN
      */
-    protected $debtorIBAN;
+    protected $debtorAccount;
 
     /**
      * Constructor
      *
-     * @param string  $id          Identifier of this group (should be unique within a message)
-     * @param string  $debtorName  Name of the debtor
-     * @param BIC|IID $debtorAgent BIC or IID of the debtor's financial institution
-     * @param IBAN    $debtorIBAN  IBAN of the debtor's account
+     * @param string    $id             Identifier of this group (should be unique within a message)
+     * @param string    $debtorName     Name of the debtor
+     * @param BIC|IID   $debtorAgent    BIC or IID of the debtor's financial institution
+     * @param IBAN|BBAN $debtorAccount  IBAN or BBAN of the debtor's account
      */
-    public function __construct($id, $debtorName, FinancialInstitutionInterface $debtorAgent, IBAN $debtorIBAN)
+    public function __construct($id, $debtorName, FinancialInstitutionInterface $debtorAgent, AccountInterface $debtorAccount)
     {
         if (!$debtorAgent instanceof BIC && !$debtorAgent instanceof IID) {
             throw new \InvalidArgumentException('The debtor agent must be an instance of BIC or IID.');
@@ -85,8 +87,7 @@ class PaymentInformation
         $this->executionDate = new \DateTime();
         $this->debtorName = (string) $debtorName;
         $this->debtorAgent = $debtorAgent;
-        $this->debtorIBAN = $debtorIBAN;
-        $this->serviceLevel = 'NURG';
+        $this->debtorAccount = $debtorAccount;
     }
 
     /**
@@ -140,6 +141,20 @@ class PaymentInformation
     public function setExecutionDate(\DateTime $executionDate)
     {
         $this->executionDate = $executionDate;
+
+        return $this;
+    }
+
+    /**
+     * Set the servicelevel
+     *
+     * @param string $serviceLevel
+     *
+     * @return PaymentInformation This payment instruction
+     */
+    public function setServiceLevel($serviceLevel)
+    {
+        $this->serviceLevel = $serviceLevel;
 
         return $this;
     }
@@ -216,7 +231,6 @@ class PaymentInformation
 
         $root->appendChild($doc->createElement('PmtInfId', $this->id));
         $root->appendChild($doc->createElement('PmtMtd', 'TRF'));
-        //$root->appendChild($doc->createElement('BtchBookg', ($this->batchBooking ? 'true' : 'false')));
 
         if ($this->hasPaymentTypeInformation()) {
             $paymentType = $doc->createElement('PmtTpInf');
@@ -226,12 +240,12 @@ class PaymentInformation
                 $localInstrumentNode->appendChild($doc->createElement('Prtry', $localInstrument));
                 $paymentType->appendChild($localInstrumentNode);
             }
-            $serviceLevel = $this->serviceLevel ?: $this->inferServiceLevel();
-            if ($serviceLevel !== null) {
-                $serviceLevelNode = $doc->createElement('SvcLvl');
-                $serviceLevelNode->appendChild($doc->createElement('Cd', $serviceLevel));
-                $paymentType->appendChild($serviceLevelNode);
-            }
+
+            $serviceLevel = $this->serviceLevel ?: 'NURG';
+            $serviceLevelNode = $doc->createElement('SvcLvl');
+            $serviceLevelNode->appendChild($doc->createElement('Cd', $serviceLevel));
+            $paymentType->appendChild($serviceLevelNode);
+
             if ($this->categoryPurpose !== null) {
                 $categoryPurposeNode = $doc->createElement('CtgyPurp');
                 $categoryPurposeNode->appendChild($this->categoryPurpose->asDom($doc));
@@ -249,7 +263,11 @@ class PaymentInformation
 
         $debtorAccount = $doc->createElement('DbtrAcct');
         $debtorAccountId = $doc->createElement('Id');
-        $debtorAccountId->appendChild($doc->createElement('IBAN', $this->debtorIBAN->normalize()));
+        if ($this->debtorAccount instanceof BBAN) {
+            $debtorAccountId->appendChild($doc->createElement('BBAN', $this->debtorAccount->normalize()));
+        } elseif ($this->debtorAccount instanceof IBAN) {
+            $debtorAccountId->appendChild($doc->createElement('IBAN', $this->debtorAccount->normalize()));
+        }
         $currency = $doc->createElement('Ccy', 'DKK');
         $debtorAccount->appendChild($debtorAccountId);
         $debtorAccount->appendChild($currency);
