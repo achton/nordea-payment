@@ -3,13 +3,10 @@
 namespace NordeaPayment;
 
 use DOMDocument;
+use InvalidArgumentException;
 
 /**
- * BBAN
-
- * @see
- * https://www.nordea.com/Images/34-48937/Nordea_Account_Structure_v1_4.pdf
- * for documentation.
+ * Social Security (SOSE) aka CPR.
  */
 class SOSE implements AccountInterface
 {
@@ -26,11 +23,38 @@ class SOSE implements AccountInterface
      */
     public function __construct($cpr)
     {
-        if (!self::check($cpr, 10)) {
-            throw new \InvalidArgumentException('Registrynumber not valid.');
+
+        if (!self::check($cpr)) {
+            throw new InvalidArgumentException('SOSE/CPR number not valid.');
         }
 
         $this->cpr = $cpr;
+    }
+
+    /**
+     * Translate a 2-digit year in the CPR number to a 4-digit year, based on
+     * CPR rules for the 7th digit.
+     *
+     * @param string $cpr 10-digit cpr number.
+     *
+     * @return string 4 digit representation of year of birth
+     */
+    protected static function getYear($cpr) {
+        $year = substr($cpr, 4, 2);
+        $seventh = $cpr[6];
+        if ($seventh < 4) {
+            $century = 19;
+        } elseif ($seventh == 4 || $seventh == 9) {
+            if ($year <= 36) {
+                $century = 20;
+            } else {
+                $century = 19;
+            }
+        } elseif ($seventh <= 8) {
+            $century = 20;
+        }
+
+        return (string) $century . $year;
     }
 
     /**
@@ -40,15 +64,22 @@ class SOSE implements AccountInterface
      */
     public function format()
     {
-        return str_pad($this->cpr, 10, "0", STR_PAD_LEFT);
+        return $this->cpr;
     }
 
-    protected static function check($number, $length)
+    protected static function check($number)
     {
         if (!is_numeric($number)) {
             return false;
         }
-        return strlen($number) <= $length ? true : false;
+
+        // Check for valid date in CPR number.
+        list($d, $m) = str_split(substr($number, 0, 4), 2);
+        if (checkdate($m, $d, self::getYear($number)) === false) {
+            return false;
+        }
+
+        return strlen($number) <= 10 ? true : false;
     }
 
     /**
