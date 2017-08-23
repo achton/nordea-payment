@@ -1,6 +1,6 @@
 <?php
 
-namespace Z38\SwissPayment;
+namespace NordeaPayment;
 
 /**
  * FinancialInstitutionAddress holds information to identify a FI by name and address

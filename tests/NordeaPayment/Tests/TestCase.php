@@ -1,6 +1,6 @@
 <?php
 
-namespace Z38\SwissPayment\Tests;
+namespace NordeaPayment\Tests;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {

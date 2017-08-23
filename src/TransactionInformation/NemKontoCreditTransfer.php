@@ -15,14 +15,10 @@ use NordeaPayment\PostalAddressInterface;
 use NordeaPayment\SOSE;
 
 /**
- * BankCreditTransfer contains all the information about a type 3 transaction.
+ * NemKontoCreditTransfer contains all the information about a NemKonto transaction.
  */
 class NemKontoCreditTransfer extends CreditTransfer
 {
-    /**
-     * @var IBAN
-     */
-    protected $creditorIBAN;
 
     /**
      * @var FinancialInstitutionInterface
@@ -32,24 +28,16 @@ class NemKontoCreditTransfer extends CreditTransfer
     /**
      * {@inheritdoc}
      *
-     * @param IBAN    $creditorIBAN  IBAN of the creditor
-     * @param BIC|IID $creditorAgent BIC or IID of the creditor's financial institution
      * @param string $sose The creditors Social security number.
+     * @param BIC|IID $creditorAgent BIC or IID of the creditor's financial institution
      *
      * @throws \InvalidArgumentException When the amount is not in EUR or CHF or when the creditor agent is not BIC or IID.
      */
-    public function __construct(
-        $endToEndId,
-        Money\Money $amount,
-        $creditorName,
-        PostalAddressInterface $creditorAddress,
-        AccountInterface $sose,
-        FinancialInstitutionInterface $creditorAgent
-    )
+    public function __construct($endToEndId, Money\Money $amount, $creditorName, PostalAddressInterface $creditorAddress, AccountInterface $sose, FinancialInstitutionInterface $creditorAgent)
     {
         if (!$amount instanceof Money\EUR && !$amount instanceof Money\DKK) {
             throw new InvalidArgumentException(sprintf(
-              'The amount must be an instance of Money\EUR or Money\CHF (instance of %s given).',
+              'The amount must be an instance of Money\EUR or Money\DKK (instance of %s given).',
               get_class($amount)
             ));
         }
@@ -60,9 +48,7 @@ class NemKontoCreditTransfer extends CreditTransfer
 
         parent::__construct($endToEndId, $amount, $creditorName, $creditorAddress);
 
-        $this->creditorIBAN =  new IBAN('CH51 0022 5225 9529 1301 C');
         $this->creditorAgent = $creditorAgent;
-        $this->serviceLevel = 'NURG';
         $this->sose = $sose;
     }
 

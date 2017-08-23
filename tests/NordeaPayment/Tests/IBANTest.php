@@ -1,14 +1,14 @@
 <?php
 
-namespace Z38\SwissPayment\Tests;
+namespace NordeaPayment\Tests;
 
-use Z38\SwissPayment\IBAN;
+use NordeaPayment\IBAN;
 
 class IBANTest extends TestCase
 {
     /**
      * @dataProvider samplesValid
-     * @covers \Z38\SwissPayment\IBAN::__construct
+     * @covers \NordeaPayment\IBAN::__construct
      */
     public function testValid($iban)
     {
@@ -16,7 +16,7 @@ class IBANTest extends TestCase
     }
 
     /**
-     * @covers \Z38\SwissPayment\IBAN::__construct
+     * @covers \NordeaPayment\IBAN::__construct
      */
     public function testInvalidChars()
     {
@@ -25,7 +25,7 @@ class IBANTest extends TestCase
     }
 
     /**
-     * @covers \Z38\SwissPayment\IBAN::__construct
+     * @covers \NordeaPayment\IBAN::__construct
      */
     public function testWrongChecksum()
     {
@@ -35,7 +35,7 @@ class IBANTest extends TestCase
 
     /**
      * @dataProvider samplesValid
-     * @covers \Z38\SwissPayment\IBAN::getCountry
+     * @covers \NordeaPayment\IBAN::getCountry
      */
     public function testGetCountry($iban, $expectedCountry)
     {
@@ -44,7 +44,7 @@ class IBANTest extends TestCase
     }
 
     /**
-     * @covers \Z38\SwissPayment\IBAN::format
+     * @covers \NordeaPayment\IBAN::format
      */
     public function testFormat()
     {
@@ -53,7 +53,7 @@ class IBANTest extends TestCase
     }
 
     /**
-     * @covers \Z38\SwissPayment\IBAN::normalize
+     * @covers \NordeaPayment\IBAN::normalize
      */
     public function testNormalize()
     {
@@ -64,7 +64,7 @@ class IBANTest extends TestCase
     /**
      * @depends testFormat
      * @dataProvider samplesValid
-     * @covers \Z38\SwissPayment\IBAN::__toString
+     * @covers \NordeaPayment\IBAN::__toString
      */
     public function testToString($iban)
     {

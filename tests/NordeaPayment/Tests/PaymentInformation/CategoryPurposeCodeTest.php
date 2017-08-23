@@ -1,15 +1,15 @@
 <?php
 
-namespace Z38\SwissPayment\Tests\TransactionInformation;
+namespace NordeaPayment\Tests\PaymentInformation;
 
 use DOMDocument;
-use Z38\SwissPayment\Tests\TestCase;
-use Z38\SwissPayment\TransactionInformation\PurposeCode;
+use NordeaPayment\PaymentInformation\CategoryPurposeCode;
+use NordeaPayment\Tests\TestCase;
 
 /**
- * @coversDefaultClass \Z38\SwissPayment\TransactionInformation\PurposeCode
+ * @coversDefaultClass \NordeaPayment\PaymentInformation\CategoryPurposeCode
  */
-class PurposeCodeTest extends TestCase
+class CategoryPurposeCodeTest extends TestCase
 {
     /**
      * @dataProvider validSamples
@@ -17,16 +17,14 @@ class PurposeCodeTest extends TestCase
      */
     public function testValid($code)
     {
-        $this->assertInstanceOf('Z38\SwissPayment\TransactionInformation\PurposeCode', new PurposeCode($code));
+        $this->assertInstanceOf('NordeaPayment\PaymentInformation\CategoryPurposeCode', new CategoryPurposeCode($code));
     }
 
     public function validSamples()
     {
         return [
-            ['SALA'], // salary payment
-            ['PENS'], // pension payment
-            ['DNTS'], // dental services
-            ['B112'], // US mutual fund trailer fee (12b-1) payment
+            ['SALA'], // Salary payment
+            ['PENS'], // Pension payment
         ];
     }
 
@@ -37,7 +35,7 @@ class PurposeCodeTest extends TestCase
      */
     public function testInvalid($code)
     {
-        new PurposeCode($code);
+        new CategoryPurposeCode($code);
     }
 
     public function invalidSamples()
@@ -47,6 +45,7 @@ class PurposeCodeTest extends TestCase
             ['sala'],
             ['SAL'],
             [' SALA'],
+            ['B112'],
         ];
     }
 
@@ -56,11 +55,11 @@ class PurposeCodeTest extends TestCase
     public function testAsDom()
     {
         $doc = new DOMDocument();
-        $iid = new PurposeCode('PHON');
+        $iid = new CategoryPurposeCode('SALA');
 
         $xml = $iid->asDom($doc);
 
         $this->assertSame('Cd', $xml->nodeName);
-        $this->assertSame('PHON', $xml->textContent);
+        $this->assertSame('SALA', $xml->textContent);
     }
 }

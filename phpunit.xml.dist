@@ -2,14 +2,14 @@
 
 <phpunit bootstrap="tests/bootstrap.php" colors="true">
     <testsuites>
-        <testsuite name="SwissPayment Test Suite">
-            <directory>tests/Z38/SwissPayment</directory>
+        <testsuite name="NordeaPayment Test Suite">
+            <directory>tests/NordeaPayment</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
-            <directory suffix=".php">src/Z38/SwissPayment</directory>
+            <directory suffix=".php">src</directory>
         </whitelist>
     </filter>
 </phpunit>

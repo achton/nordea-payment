@@ -1,6 +1,6 @@
 <?php
 
-namespace Z38\SwissPayment;
+namespace NordeaPayment;
 
 /**
  * This class holds a unstructured representation of a postal address

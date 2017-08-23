@@ -16,47 +16,71 @@ class BBAN implements AccountInterface
     /**
      * @var string
      */
-    protected $registryNumber;
+    protected $registrationNumber;
     protected $accountNumber;
 
     /**
      * Constructor
      *
-     * @param int $registryNumber
-     * @param int $registryNumber
+     * @param int $registrationNumber
+     * @param int $accountNumber
      *
      */
-    public function __construct($registryNumber, $accountNumber)
+    public function __construct($registrationNumber, $accountNumber)
     {
-        if (!self::check($registryNumber, 4)) {
-            throw new \InvalidArgumentException('Registrynumber not valid.');
+        if (!self::check($registrationNumber)) {
+            throw new \InvalidArgumentException('Bank registration number not valid.');
         }
-        if (!self::check($accountNumber, 10)) {
-            throw new \InvalidArgumentException('Accountnumber not valid.');
+        if (!self::check($accountNumber)) {
+            throw new \InvalidArgumentException('Account number not valid.');
         }
         $this->accountNumber = $accountNumber;
-        $this->registryNumber = $registryNumber;
+        $this->registrationNumber = $registrationNumber;
     }
 
     /**
-     * Format the BBAN either in a human-readable manner
+     * Format the BBAN according to Nordea requirements.
+     *
+     * Bank account number must be 14 digits. The first 4 digits of the bank
+     * account number must be the bank registration number. The last 10 digits
+     * must be the account number. If the bank registration number is
+     * shorter than 4 digits or the account number is shorter than 10 digits, it
+     * must be right aligned and padded with leading zeroes.
      *
      * @return string The formatted BBAN
      */
     public function format()
     {
-        $registryNumber = str_pad($this->registryNumber, 4, "0", STR_PAD_LEFT);
-        $accountNumber = str_pad($this->accountNumber, 10, "0", STR_PAD_LEFT);
-        return $registryNumber . $accountNumber;
+        $registrationNumber = str_pad($this->registrationNumber, 4, '0', STR_PAD_LEFT);
+        $accountNumber = str_pad($this->accountNumber, 10, '0', STR_PAD_LEFT);
+        return $registrationNumber . $accountNumber;
     }
 
-    protected static function check($number, $length)
+    /**
+     * Normalize the BBAN
+     *
+     * @return string The normalized BBAN
+     */
+    public function normalize()
+    {
+        return $this->bban;
+    }
+
+    /**
+     * Basic checks.
+     *
+     * @param string $number
+     *
+     * @return bool
+     */
+    protected static function check($number)
     {
         if (!is_numeric($number)) {
             return false;
         }
-        return strlen($number) <= $length ? true : false;
+        return true;
     }
+
 
     /**
      * {@inheritdoc}

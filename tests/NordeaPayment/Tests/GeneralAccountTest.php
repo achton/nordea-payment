@@ -1,14 +1,14 @@
 <?php
 
-namespace Z38\SwissPayment\Tests;
+namespace NordeaPayment\Tests;
 
 use InvalidArgumentException;
-use Z38\SwissPayment\GeneralAccount;
+use NordeaPayment\GeneralAccount;
 
 class GeneralAccountTest extends TestCase
 {
     /**
-     * @covers \Z38\SwissPayment\GeneralAccount::__construct
+     * @covers \NordeaPayment\GeneralAccount::__construct
      */
     public function testValid()
     {
@@ -16,7 +16,7 @@ class GeneralAccountTest extends TestCase
     }
 
     /**
-     * @covers \Z38\SwissPayment\GeneralAccount::__construct
+     * @covers \NordeaPayment\GeneralAccount::__construct
      * @expectedException InvalidArgumentException
      */
     public function testInvalid()
@@ -25,7 +25,7 @@ class GeneralAccountTest extends TestCase
     }
 
     /**
-     * @covers \Z38\SwissPayment\GeneralAccount::format
+     * @covers \NordeaPayment\GeneralAccount::format
      */
     public function testFormat()
     {

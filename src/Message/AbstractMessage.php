@@ -63,7 +63,7 @@ abstract class AbstractMessage implements MessageInterface
      */
     public function getSoftwareName()
     {
-        return 'Z38_SwissPayment';
+        return 'NordeaPayment';
     }
 
     /**
@@ -73,7 +73,7 @@ abstract class AbstractMessage implements MessageInterface
      */
     public function getSoftwareVersion()
     {
-        return '0.5.0';
+        return '0.0.1';
     }
 
     /**

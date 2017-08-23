@@ -1,6 +1,6 @@
 <?php
 
-namespace Z38\SwissPayment\TransactionInformation;
+namespace NordeaPayment\TransactionInformation;
 
 use DOMDocument;
 use InvalidArgumentException;

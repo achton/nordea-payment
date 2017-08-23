@@ -1,14 +1,14 @@
 <?php
 
-namespace Z38\SwissPayment\Tests;
+namespace NordeaPayment\Tests;
 
-use Z38\SwissPayment\BIC;
+use NordeaPayment\BIC;
 
 class BICTest extends TestCase
 {
     /**
      * @dataProvider validSamples
-     * @covers \Z38\SwissPayment\BIC::__construct
+     * @covers \NordeaPayment\BIC::__construct
      */
     public function testValid($bic)
     {
@@ -16,7 +16,7 @@ class BICTest extends TestCase
     }
 
     /**
-     * @covers \Z38\SwissPayment\BIC::__construct
+     * @covers \NordeaPayment\BIC::__construct
      */
     public function testInvalidLength()
     {
@@ -25,7 +25,7 @@ class BICTest extends TestCase
     }
 
     /**
-     * @covers \Z38\SwissPayment\BIC::__construct
+     * @covers \NordeaPayment\BIC::__construct
      */
     public function testInvalidChars()
     {
@@ -35,7 +35,7 @@ class BICTest extends TestCase
 
     /**
      * @dataProvider validSamples
-     * @covers \Z38\SwissPayment\BIC::format
+     * @covers \NordeaPayment\BIC::format
      */
     public function testFormat($bic)
     {

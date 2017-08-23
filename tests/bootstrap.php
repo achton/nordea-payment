@@ -12,4 +12,4 @@ EOT
     );
 }
 
-$loader->add('Z38\SwissPayment\Tests', __DIR__);
+$loader->add('NordeaPayment\Tests', __DIR__);

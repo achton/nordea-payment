@@ -66,7 +66,6 @@ abstract class CreditTransfer
      */
     public function __construct($endToEndId, Money $amount, $creditorName, PostalAddressInterface $creditorAddress)
     {
-        //$this->instructionId = (string) $instructionId;
         $this->endToEndId = (string) $endToEndId;
         $this->amount = $amount;
         $this->creditorName = (string) $creditorName;
@@ -91,6 +90,20 @@ abstract class CreditTransfer
     public function getServiceLevel()
     {
         return $this->serviceLevel;
+    }
+
+    /**
+     * Set the servicelevel
+     *
+     * @param string $serviceLevel
+     *
+     * @return PaymentInformation This payment instruction
+     */
+    public function setServiceLevel($serviceLevel)
+    {
+        $this->serviceLevel = $serviceLevel;
+
+        return $this;
     }
 
     /**
@@ -154,7 +167,6 @@ abstract class CreditTransfer
         $root = $doc->createElement('CdtTrfTxInf');
 
         $id = $doc->createElement('PmtId');
-        //$id->appendChild($doc->createElement('InstrId', $this->instructionId));
         $id->appendChild($doc->createElement('EndToEndId', $this->endToEndId));
         $root->appendChild($id);
 
@@ -165,11 +177,10 @@ abstract class CreditTransfer
                 $localInstrumentNode->appendChild($doc->createElement('Prtry', $this->localInstrument));
                 $paymentType->appendChild($localInstrumentNode);
             }
-            if ($this->serviceLevel !== null) {
-                $serviceLevelNode = $doc->createElement('SvcLvl');
-                $serviceLevelNode->appendChild($doc->createElement('Cd', $this->serviceLevel));
-                $paymentType->appendChild($serviceLevelNode);
-            }
+            $serviceLevel = $this->serviceLevel ?: 'NURG';
+            $serviceLevelNode = $doc->createElement('SvcLvl');
+            $serviceLevelNode->appendChild($doc->createElement('Cd', $this->serviceLevel));
+            $paymentType->appendChild($serviceLevelNode);
             $root->appendChild($paymentType);
         }
 
