@@ -1,12 +1,17 @@
 <?php
 
-namespace Z38\SwissPayment\PaymentInformation;
+namespace NordeaPayment\PaymentInformation;
 
 use DOMDocument;
 use InvalidArgumentException;
 
 /**
  * CategoryPurposeCode contains a category purpose code from the External Code Sets
+ *
+ * This is the instruction for the payment type. Some codes are linked to the
+ * service level. This element can either be used here or at the transaction
+ * (credit) level, but not both. SALA or PENS only valid at this level. All
+ * credits must be the same.
  */
 class CategoryPurposeCode
 {
