@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/achton/nordea-payment.svg?branch=master)](https://travis-ci.org/achton/nordea-payment)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/achton/nordea-payment/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/achton/nordea-payment/?branch=master)
+[![Scrutinizer Code Coverage](https://scrutinizer-ci.com/g/achton/nordea-payment/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/achton/nordea-payment/code-structure/master/code-coverage)
+
 
 **Nordea Payment** is a PHP library to generate Danish Nordea pain.001 XML messages (complies with ISO-20022). It is based on [Nordea's Corporate eGateway Message Implementation Guideline for pain.001 messages](resources/MIG_pain.001.001.03_v_2.1_Release-2016-08-19_FINAL.PDF). It is also a fork of the [SwissPayment library](https://github.com/z38/swiss-payment) and altered to fit Nordea's needs.
 
