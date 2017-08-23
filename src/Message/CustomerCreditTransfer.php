@@ -18,6 +18,11 @@ class CustomerCreditTransfer extends AbstractMessage
     /**
      * @var string
      */
+    protected $initiatingPartyId;
+
+    /**
+     * @var string
+     */
     protected $initiatingParty;
 
     /**
@@ -36,10 +41,11 @@ class CustomerCreditTransfer extends AbstractMessage
      * @param string $id Identifier of the message (should usually be unique over a period of at least 90 days)
      * @param string $initiatingParty Name of the initiating party
      */
-    public function __construct($id, $initiatingParty)
+    public function __construct($id, $initiatingParty, $initiatingPartyId)
     {
         $this->id = (string) $id;
         $this->initiatingParty = (string) $initiatingParty;
+        $this->initiatingPartyId = (string) $initiatingPartyId;
         $this->payments = array();
         $this->creationTime = new \DateTime();
     }
@@ -96,7 +102,9 @@ class CustomerCreditTransfer extends AbstractMessage
         $header->appendChild($doc->createElement('CreDtTm', $this->creationTime->format('Y-m-d\TH:i:sP')));
         $header->appendChild($doc->createElement('NbOfTxs', $transactionCount));
         $header->appendChild($doc->createElement('CtrlSum', $transactionSum->format()));
-        $header->appendChild($this->buildInitiatingParty($doc, 'Dong A/S', 'DONGNEMOTEST'));
+        if (!empty($this->initiatingParty) && !empty($this->initiatingPartyId)) {
+            $header->appendChild($this->buildInitiatingParty($doc, $this->initiatingParty, $this->initiatingPartyId));
+        }
         $root->appendChild($header);
 
         foreach ($this->payments as $payment) {
