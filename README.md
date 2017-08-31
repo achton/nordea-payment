@@ -41,10 +41,10 @@ $transaction1 = new BankCreditTransfer(
 
 $transaction2 = new NemKontoCreditTransfer(
     'e2e-002',
-    new Money\DKK(30000), // DKK 300.00
+    new Money\DKK(40000), // DKK 400.00
     'Rasmus Klump',
     new StructuredPostalAddress('Pildskaddevej', '12', '3782', 'Klemensker'),
-    new BBAN('0568', '7894561'),
+    new SOSE('1710791485'),
     new BIC('NDEADKKK')
 );
 
