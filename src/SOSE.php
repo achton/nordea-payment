@@ -79,7 +79,7 @@ class SOSE implements AccountInterface
             return false;
         }
 
-        return strlen($number) <= 10 ? true : false;
+        return strlen($number) == 10 ? true : false;
     }
 
     /**
