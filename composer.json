@@ -1,11 +1,16 @@
 {
-    "name": "troelslenda/nordea-payment",
+    "name": "obviux/nordea-payment",
     "type": "library",
     "license": "MIT",
-    "description": "PHP library to generate Swiss pain.001 messages (complies with ISO-20022)",
-    "keywords": ["banking", "iso-20022", "six", "credit-transfer", "switzerland", "sepa", "xml"],
-    "homepage": "https://github.com/troelslenda/nordea-payment",
+    "description": "PHP library to generate Danish pain.001 messages (complies with ISO-20022)",
+    "keywords": ["banking", "iso-20022", "nordea", "credit-transfer", "denmark", "xml"],
+    "homepage": "https://github.com/obviux/nordea-payment",
     "authors": [
+        {
+            "name": "Obviux",
+            "homepage": "https://github.com/obviux",
+            "role": "Developer"
+        },
         {
             "name": "Troels Lenda",
             "homepage": "https://github.com/troelslenda",
