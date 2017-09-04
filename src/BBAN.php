@@ -3,6 +3,7 @@
 namespace NordeaPayment;
 
 use DOMDocument;
+use InvalidArgumentException;
 
 /**
  * BBAN
@@ -28,11 +29,11 @@ class BBAN implements AccountInterface
      */
     public function __construct($registrationNumber, $accountNumber)
     {
-        if (!self::check($registrationNumber)) {
-            throw new \InvalidArgumentException('Bank registration number not valid.');
+        if (!self::check($registrationNumber, 4)) {
+            throw new InvalidArgumentException('Bank registration number not valid.');
         }
-        if (!self::check($accountNumber)) {
-            throw new \InvalidArgumentException('Account number not valid.');
+        if (!self::check($accountNumber, 10)) {
+            throw new InvalidArgumentException('Account number not valid.');
         }
         $this->accountNumber = $accountNumber;
         $this->registrationNumber = $registrationNumber;
@@ -70,12 +71,16 @@ class BBAN implements AccountInterface
      * Basic checks.
      *
      * @param string $number
+     * @param integer $max
      *
      * @return bool
      */
-    protected static function check($number)
+    protected static function check($number, $max = 0)
     {
         if (!is_numeric($number)) {
+            return false;
+        }
+        if ($max && $max < strlen($number)) {
             return false;
         }
         return true;
